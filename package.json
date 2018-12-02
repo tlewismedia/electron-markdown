@@ -4,13 +4,14 @@
   "description": "",
   "main": "./app/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "debug": "electron . --inspect-brk"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "electron": "^3.0.9",
+    "electron": "^3.0.10",
     "marked": "^0.5.1"
   },
   "devDependencies": {

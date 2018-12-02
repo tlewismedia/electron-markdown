@@ -3,17 +3,29 @@ const fs = require('fs');
 
 const windows = new Set();
 
+
 const createWindow = () => {
-  let newWindow = new BrowserWindow({ show: false });
+  let x;
+  let y;
 
-  newWindow.loadFile('index.html');
+  const currentWindow = BrowserWindow.getFocusedWindow();
 
-  newWindow.once('read-to-show', () => {
+  if (currentWindow) {
+    const [currentWindowX, currentWindowY] = currentWindow.getPosition();
+    x = currentWindowX + 10;
+    y = currentWindowY + 10;
+  }
+
+  let newWindow = new BrowserWindow({ x, y, show: false });
+
+  newWindow.loadFile('app/index.html');
+
+  newWindow.once('ready-to-show', () => {
     newWindow.show();
   });
 
   newWindow.on('closed', () => {
-    window.delete(newWindow);
+    windows.delete(newWindow);
     newWindow = null;
   });
 
@@ -21,9 +33,19 @@ const createWindow = () => {
   return newWindow;
 };
 
+app.on('activate', (event, hasVisibleWindows) => {
+  if (!hasVisibleWindows) { createWindow(); }
+});
 
 app.on('ready', () => {
   createWindow();
+});
+
+app.on('window-all-closed', () => {
+  if (process.platform === 'darwin') {
+    return false;
+  }
+  return false;
 });
 
 const openFile = (targetWindow, file) => {
@@ -38,12 +60,12 @@ const getFileFromUser = (targetWindow) => {
       { name: 'Text Files', extensions: ['txt'] },
       { name: 'Markdown Files', extensions: ['md', 'markdown'] }
     ]
-
   });
 
-  if (files) { openFile(files[0]); }
+  if (files) { openFile(targetWindow, files[0]); }
 };
 
 
 exports.createWindow = createWindow;
 exports.getFileFromUser = getFileFromUser;
+exports.openFile = openFile;
