@@ -53,6 +53,10 @@ newFileButton.addEventListener('click', () => {
   mainProcess.createWindow();
 });
 
+newFileButton.addEventListener('click', () => {
+  mainProcess.createWindow();
+});
+
 openFileButton.addEventListener('click', () => {
   mainProcess.getFileFromUser(currentWindow);
 });
@@ -63,6 +67,9 @@ ipcRenderer.on('file-opened', (event, file, content) => {
 
   markdownView.value = content;
   renderMarkdownToHtml(content);
+<<<<<<< HEAD
 
   updateUserInterface();
+=======
+>>>>>>> b3b36c45215fa522a8876c77300b9124c82a895c
 });
