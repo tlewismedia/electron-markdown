@@ -65,6 +65,22 @@ const getFileFromUser = (targetWindow) => {
   if (files) { openFile(targetWindow, files[0]); }
 };
 
+app.on('ready', () => {
+  createWindow();
+});
+
+app.on('window-all-closed', () => {
+  if (process.platform === 'darwin') {
+    return false;
+  }
+  app.quit();
+  return false;
+});
+
+app.on('activate', (event, hasVisibleWindows) => {
+  if (!hasVisibleWindows) { createWindow(); }
+});
+
 
 exports.createWindow = createWindow;
 exports.getFileFromUser = getFileFromUser;
