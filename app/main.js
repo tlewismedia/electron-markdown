@@ -45,7 +45,7 @@ app.on('window-all-closed', () => {
   if (process.platform === 'darwin') {
     return false;
   }
-  return false;
+  return null;
 });
 
 const openFile = (targetWindow, file) => {
